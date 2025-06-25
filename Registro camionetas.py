@@ -17,7 +17,7 @@ else:
     df_existente = pd.DataFrame(columns=["Fecha", "Gestor", "Patente", "Sitio", "Región", "Proyecto", "Actividad"])
 
 # === LOGO ===
-st.image("logo.jpg", use_column_width=True)
+st.image("logo.jpg", use_container_width=True)
 
 # === TÍTULO DE LA APP ===
 st.markdown("<h2 style='text-align: center;'>Registro uso camionetas - SAC</h2>", unsafe_allow_html=True)
