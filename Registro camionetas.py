@@ -4,11 +4,9 @@ import os
 from datetime import date
 from PIL import Image
 
-# === CONFIGURACIÓN DE PÁGINA ===
 st.set_page_config(page_title="Registro uso camionetas - SAC", layout="centered")
 archivo_excel = 'uso_camionetas.xlsx'
 
-# === CARGAR O CREAR EXCEL ===
 if os.path.exists(archivo_excel):
     df_existente = pd.read_excel(archivo_excel)
     if not df_existente.empty and 'Fecha' in df_existente.columns:
@@ -16,13 +14,10 @@ if os.path.exists(archivo_excel):
 else:
     df_existente = pd.DataFrame(columns=["Fecha", "Gestor", "Patente", "Sitio", "Región", "Proyecto", "Actividad"])
 
-# === LOGO ===
 st.image("logo.jpg", use_container_width=True)
-
-# === TÍTULO DE LA APP ===
 st.markdown("<h2 style='text-align: center;'>Registro uso camionetas - SAC</h2>", unsafe_allow_html=True)
 
-# === LISTAS FIJAS ===
+#LISTAS
 gestores = [
     "Rodrigo Chávez", "Hernán Aguilera", "Juan Molina", "Francisco Barrios",
     "Francisco Parra", "Rodrigo Araneda", "Marilin López", "Rodrigo Escandón",
@@ -34,7 +29,7 @@ patentes = [
     "PTWB72", "RSVD89", "RVGV85", "RVGV87"
 ]
 
-# === REGISTRO NUEVO ===
+#REGISTROS
 st.markdown("#### 📝 Nuevo Registro")
 
 with st.form("registro_formulario"):
@@ -74,7 +69,7 @@ with st.form("registro_formulario"):
             df_existente.to_excel(archivo_excel, index=False)
             st.success("✅ Registro guardado correctamente.")
 
-# === CONSULTAR Y EDITAR REGISTROS ===
+#CONSULTAS
 st.markdown("---")
 st.markdown("#### 📊 Consulta o edita tus registros")
 
@@ -119,10 +114,9 @@ if not df_gestor.empty:
 else:
     st.info("No hay registros para mostrar aún.")
 
-# === DESCARGA CON CLAVE ===
+#DESCARGA
 st.markdown("---")
 st.markdown("#### 🔒 Acceso Restringido")
-
 codigo = st.text_input("Ingresa el código para descargar consolidado", type="password")
 if codigo == "mlq2025":
     if os.path.exists(archivo_excel):
@@ -131,7 +125,6 @@ if codigo == "mlq2025":
 else:
     st.warning("⚠️ Ingresa el código para habilitar la descarga.")
 
-# === CRÉDITO FINAL ===
 st.markdown("""
 <div style='text-align: center; font-size: 12px; color: gray; margin-top: 30px;'>
     <em>By MLOPEZQ</em>
