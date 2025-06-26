@@ -38,7 +38,6 @@ with st.form("registro_formulario"):
     patente = st.selectbox("Patente", patentes)
     sitio = st.text_input("Sitio")
     region = st.number_input("Región (solo número)", min_value=1, step=1)
-    proyecto = st.text_input("Proyecto")
     actividad = st.text_area("Actividad realizada")
 
     enviar = st.form_submit_button("Enviar Registro")
@@ -62,7 +61,6 @@ with st.form("registro_formulario"):
                 "Patente": [patente],
                 "Sitio": [sitio],
                 "Región": [int(region)],
-                "Proyecto": [proyecto],
                 "Actividad": [actividad]
             })
             df_existente = pd.concat([df_existente, nuevo], ignore_index=True)
@@ -83,7 +81,6 @@ if not df_gestor.empty:
         with st.expander(f"{fila['Fecha'].date()} | {fila['Patente']} | {fila['Sitio']}", expanded=False):
             col1, col2 = st.columns(2)
             with col1:
-                st.write(f"**Proyecto:** {fila['Proyecto']}")
                 st.write(f"**Región:** {fila['Región']}")
                 st.write(f"**Actividad:** {fila['Actividad']}")
             with col2:
@@ -93,7 +90,6 @@ if not df_gestor.empty:
                         nueva_patente = st.selectbox("Patente", patentes, index=patentes.index(fila["Patente"]), key=f"f_patente_{idx}")
                         nuevo_sitio = st.text_input("Sitio", value=fila["Sitio"], key=f"f_sitio_{idx}")
                         nueva_region = st.number_input("Región", min_value=1, step=1, value=int(fila["Región"]), key=f"f_region_{idx}")
-                        nuevo_proyecto = st.text_input("Proyecto", value=fila["Proyecto"], key=f"f_proyecto_{idx}")
                         nueva_actividad = st.text_area("Actividad", value=fila["Actividad"], key=f"f_actividad_{idx}")
                         guardar = st.form_submit_button("Guardar cambios")
 
@@ -102,7 +98,6 @@ if not df_gestor.empty:
                             df_existente.loc[idx, "Patente"] = nueva_patente
                             df_existente.loc[idx, "Sitio"] = nuevo_sitio
                             df_existente.loc[idx, "Región"] = int(nueva_region)
-                            df_existente.loc[idx, "Proyecto"] = nuevo_proyecto
                             df_existente.loc[idx, "Actividad"] = nueva_actividad
                             df_existente.to_excel(archivo_excel, index=False)
                             st.success("✅ Registro actualizado. Refresca la página para ver los cambios.")
