@@ -16,6 +16,7 @@ if os.path.exists(archivo_excel):
 else:
     df_existente = pd.DataFrame(columns=columnas_def)
 
+#LOGO
 st.image("logo.jpg", use_container_width=True)
 st.markdown("<h2 style='text-align: center;'>Registro uso camionetas - SAC</h2>", unsafe_allow_html=True)
 
@@ -126,8 +127,3 @@ if codigo == "mlq2025":
 else:
     st.warning("⚠️ Ingresa el código para habilitar la descarga.")
 
-st.markdown("""
-<div style='text-align: center; font-size: 12px; color: gray; margin-top: 30px;'>
-    <em>By MLOPEZQ</em>
-</div>
-""", unsafe_allow_html=True)
