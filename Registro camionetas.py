@@ -17,7 +17,7 @@ else:
 st.image("logo.jpg", use_container_width=True)
 st.markdown("<h2 style='text-align: center;'>Registro uso camionetas - SAC</h2>", unsafe_allow_html=True)
 
-#LISTAS
+# Listas
 gestores = [
     "Rodrigo Chávez", "Hernán Aguilera", "Juan Molina", "Francisco Barrios",
     "Francisco Parra", "Rodrigo Araneda", "Marilin López", "Rodrigo Escandón",
@@ -29,7 +29,7 @@ patentes = [
     "PTWB72", "RSVD89", "RVGV85", "RVGV87"
 ]
 
-#REGISTROS
+# REGISTRO
 st.markdown("#### 📝 Nuevo Registro")
 
 with st.form("registro_formulario"):
@@ -67,18 +67,23 @@ with st.form("registro_formulario"):
             df_existente.to_excel(archivo_excel, index=False)
             st.success("✅ Registro guardado correctamente.")
 
-#CONSULTAS
+# CONSULTAS
 st.markdown("---")
 st.markdown("#### 📊 Consulta o edita tus registros")
 
 gestor_consulta = st.selectbox("Selecciona tu nombre", gestores, key="gestor_consulta")
 df_gestor = df_existente[df_existente["Gestor"] == gestor_consulta].copy()
 
+# Conversión segura
+df_gestor["Fecha"] = pd.to_datetime(df_gestor["Fecha"], errors="coerce")
+
 if not df_gestor.empty:
     st.success(f"Tienes {len(df_gestor)} registro(s).")
 
     for idx, fila in df_gestor.iterrows():
-        with st.expander(f"{fila['Fecha'].date()} | {fila['Patente']} | {fila['Sitio']}", expanded=False):
+        fecha_str = fila["Fecha"].strftime("%Y-%m-%d") if pd.notnull(fila["Fecha"]) else "Sin fecha"
+
+        with st.expander(f"{fecha_str} | {fila['Patente']} | {fila['Sitio']}", expanded=False):
             col1, col2 = st.columns(2)
             with col1:
                 st.write(f"**Región:** {fila['Región']}")
@@ -86,7 +91,7 @@ if not df_gestor.empty:
             with col2:
                 if st.button("✏️ Editar", key=f"edit_{idx}"):
                     with st.form(f"form_edit_{idx}"):
-                        nueva_fecha = st.date_input("Fecha", value=fila["Fecha"].date(), min_value=date(2025, 6, 1), key=f"f_fecha_{idx}")
+                        nueva_fecha = st.date_input("Fecha", value=fila["Fecha"].date() if pd.notnull(fila["Fecha"]) else date.today(), min_value=date(2025, 6, 1), key=f"f_fecha_{idx}")
                         nueva_patente = st.selectbox("Patente", patentes, index=patentes.index(fila["Patente"]), key=f"f_patente_{idx}")
                         nuevo_sitio = st.text_input("Sitio", value=fila["Sitio"], key=f"f_sitio_{idx}")
                         nueva_region = st.number_input("Región", min_value=1, step=1, value=int(fila["Región"]), key=f"f_region_{idx}")
@@ -105,11 +110,11 @@ if not df_gestor.empty:
                 if st.button("🗑️ Eliminar", key=f"del_{idx}"):
                     df_existente.drop(index=idx, inplace=True)
                     df_existente.to_excel(archivo_excel, index=False)
-                    st.warning("🗑️ Registro eliminado. Refresca la página.")
+                    st.warning("🗑️ Registro eliminado. Actualiza la página.")
 else:
     st.info("No hay registros para mostrar aún.")
 
-#DESCARGA
+# DESCARGA
 st.markdown("---")
 st.markdown("#### 🔒 Acceso Restringido")
 codigo = st.text_input("Ingresa el código para descargar consolidado", type="password")
@@ -119,4 +124,3 @@ if codigo == "mlq2025":
             st.download_button("📅 Descargar Excel consolidado", data=file, file_name="uso_camionetas.xlsx")
 else:
     st.warning("⚠️ Ingresa el código para habilitar la descarga.")
-
