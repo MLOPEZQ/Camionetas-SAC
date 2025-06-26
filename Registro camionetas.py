@@ -7,12 +7,14 @@ from PIL import Image
 st.set_page_config(page_title="Registro uso camionetas - SAC", layout="centered")
 archivo_excel = 'uso_camionetas.xlsx'
 
+columnas_def = ["Fecha", "Gestor", "Patente", "Sitio", "Región", "Actividad"]
 if os.path.exists(archivo_excel):
     df_existente = pd.read_excel(archivo_excel)
-    if not df_existente.empty and 'Fecha' in df_existente.columns:
-        df_existente['Fecha'] = pd.to_datetime(df_existente['Fecha'], errors='coerce')
+    df_existente = df_existente[[col for col in columnas_def if col in df_existente.columns]]
+    df_existente['Fecha'] = pd.to_datetime(df_existente['Fecha'], errors='coerce')
+    df_existente.dropna(subset=["Fecha"], inplace=True)
 else:
-    df_existente = pd.DataFrame(columns=["Fecha", "Gestor", "Patente", "Sitio", "Región", "Proyecto", "Actividad"])
+    df_existente = pd.DataFrame(columns=columnas_def)
 
 st.image("logo.jpg", use_container_width=True)
 st.markdown("<h2 style='text-align: center;'>Registro uso camionetas - SAC</h2>", unsafe_allow_html=True)
@@ -33,7 +35,7 @@ patentes = [
 st.markdown("#### 📝 Nuevo Registro")
 
 with st.form("registro_formulario"):
-    fecha = st.date_input("Fecha del registro", value=date.today(), min_value=date(2025, 6, 1))
+    fecha = st.date_input("Fecha del registro", value=date.today(), min_value=date(2025, 7, 1))
     gestor = st.selectbox("Gestor", gestores)
     patente = st.selectbox("Patente", patentes)
     sitio = st.text_input("Sitio")
@@ -78,7 +80,11 @@ if not df_gestor.empty:
     st.success(f"Tienes {len(df_gestor)} registro(s).")
 
     for idx, fila in df_gestor.iterrows():
-        with st.expander(f"{fila['Fecha'].date()} | {fila['Patente']} | {fila['Sitio']}", expanded=False):
+        try:
+            fecha_str = fila["Fecha"].date()
+        except:
+            fecha_str = "Sin fecha"
+        with st.expander(f"{fecha_str} | {fila['Patente']} | {fila['Sitio']}", expanded=False):
             col1, col2 = st.columns(2)
             with col1:
                 st.write(f"**Región:** {fila['Región']}")
@@ -86,7 +92,7 @@ if not df_gestor.empty:
             with col2:
                 if st.button("✏️ Editar", key=f"edit_{idx}"):
                     with st.form(f"form_edit_{idx}"):
-                        nueva_fecha = st.date_input("Fecha", value=fila["Fecha"].date(), min_value=date(2025, 6, 1), key=f"f_fecha_{idx}")
+                        nueva_fecha = st.date_input("Fecha", value=fila["Fecha"].date(), min_value=date(2025, 7, 1), key=f"f_fecha_{idx}")
                         nueva_patente = st.selectbox("Patente", patentes, index=patentes.index(fila["Patente"]), key=f"f_patente_{idx}")
                         nuevo_sitio = st.text_input("Sitio", value=fila["Sitio"], key=f"f_sitio_{idx}")
                         nueva_region = st.number_input("Región", min_value=1, step=1, value=int(fila["Región"]), key=f"f_region_{idx}")
