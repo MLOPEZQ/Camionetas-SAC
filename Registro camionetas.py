@@ -42,34 +42,34 @@ with st.form("registro_formulario"):
     enviar = st.form_submit_button("Enviar Registro")
 
     if enviar:
-    # Validación de campos vacíos
-    if not sitio.strip() or not actividad.strip():
-        st.error("❌ Todos los campos deben estar completos.")
-    else:
-        if not df_existente.empty:
-            existe = (
-                (df_existente['Fecha'].dt.date == fecha) &
-                (df_existente['Gestor'] == gestor) &
-                (df_existente['Patente'] == patente)
-            ).any()
+        # Validación de campos vacíos
+        if not sitio.strip() or not actividad.strip():
+            st.error("❌ Todos los campos deben estar completos.")
         else:
-            existe = False
+            if not df_existente.empty:
+                existe = (
+                    (df_existente['Fecha'].dt.date == fecha) &
+                    (df_existente['Gestor'] == gestor) &
+                    (df_existente['Patente'] == patente)
+                ).any()
+            else:
+                existe = False
 
-        if existe:
-            st.error("❌ Ya existe un registro para este día asociado al Gestor y Patente.")
-        else:
-            nuevo = pd.DataFrame({
-                "Fecha": [fecha],
-                "Gestor": [gestor],
-                "Patente": [patente],
-                "Código Subtel": [sitio],
-                "Región": [int(region)],
-                "Actividad": [actividad]
-            })
-            df_existente = pd.concat([df_existente, nuevo], ignore_index=True)
-            df_existente.to_excel(archivo_excel, index=False)
-            st.success("✅ Registro guardado correctamente.")
-            
+            if existe:
+                st.error("❌ Ya existe un registro para este día asociado al Gestor y Patente.")
+            else:
+                nuevo = pd.DataFrame({
+                    "Fecha": [fecha],
+                    "Gestor": [gestor],
+                    "Patente": [patente],
+                    "Código Subtel": [sitio],
+                    "Región": [int(region)],
+                    "Actividad": [actividad]
+                })
+                df_existente = pd.concat([df_existente, nuevo], ignore_index=True)
+                df_existente.to_excel(archivo_excel, index=False)
+                st.success("✅ Registro guardado correctamente.")
+
 # CONSULTAS
 st.markdown("---")
 st.markdown("#### 📊 Consulta o edita tus registros")
@@ -86,7 +86,7 @@ if not df_gestor.empty:
     for idx, fila in df_gestor.iterrows():
         fecha_str = fila["Fecha"].strftime("%Y-%m-%d") if pd.notnull(fila["Fecha"]) else "Sin fecha"
 
-        with st.expander(f"{fecha_str} | {fila['Patente']} | {fila['Sitio']}", expanded=False):
+        with st.expander(f"{fecha_str} | {fila['Patente']} | {fila['Código Subtel']}", expanded=False):
             col1, col2 = st.columns(2)
             with col1:
                 st.write(f"**Región:** {fila['Región']}")
