@@ -5,6 +5,51 @@ from datetime import date
 from PIL import Image
 
 st.set_page_config(page_title="Registro uso camionetas - SAC", layout="centered")
+st.markdown(
+    """
+    <style>
+    /* Fondo general en morado suave */
+    .stApp {
+        background-color: #f3e8ff;
+        background-image: none;
+    }
+
+    /* Caja de widgets con bordes redondeados y sombra suave */
+    .stTextInput, .stNumberInput, .stDateInput, .stSelectbox, .stTextArea, .stForm, .stDownloadButton {
+        background-color: #ffffff !important;
+        border-radius: 10px;
+        padding: 5px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Titulares centrados */
+    h1, h2, h3 {
+        text-align: center;
+        color: #2d004d;
+    }
+
+    /* Botones con color WOM */
+    button[kind="primary"] {
+        background-color: #800080 !important;
+        color: white !important;
+        border: none;
+        border-radius: 8px;
+    }
+
+    /* Botones secundarios */
+    button[kind="secondary"] {
+        border-color: #800080 !important;
+        color: #800080 !important;
+    }
+
+    /* Texto general */
+    .stMarkdown, .stText {
+        color: #2d004d;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 archivo_excel = 'uso_camionetas.xlsx'
 
 if os.path.exists(archivo_excel):
