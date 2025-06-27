@@ -8,13 +8,13 @@ st.set_page_config(page_title="Registro uso camionetas - SAC", layout="centered"
 st.markdown(
     """
     <style>
-    /* Fondo general en morado suave */
+    /* Fondo */
     .stApp {
-        background-color: #f3e8ff;
+        background-color: #f9f5ff;
         background-image: none;
     }
 
-    /* Caja de widgets con bordes redondeados y sombra suave */
+    /* box de widgets */
     .stTextInput, .stNumberInput, .stDateInput, .stSelectbox, .stTextArea, .stForm, .stDownloadButton {
         background-color: #ffffff !important;
         border-radius: 10px;
@@ -28,7 +28,7 @@ st.markdown(
         color: #2d004d;
     }
 
-    /* Botones con color WOM */
+    /* Botones con color */
     button[kind="primary"] {
         background-color: #800080 !important;
         color: white !important;
