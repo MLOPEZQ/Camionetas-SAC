@@ -69,6 +69,7 @@ with st.form("registro_formulario"):
             df_existente = pd.concat([df_existente, nuevo], ignore_index=True)
             df_existente.to_excel(archivo_excel, index=False)
             st.success("✅ Registro guardado correctamente.")
+            
 # CONSULTAS
 st.markdown("---")
 st.markdown("#### 📊 Consulta o edita tus registros")
