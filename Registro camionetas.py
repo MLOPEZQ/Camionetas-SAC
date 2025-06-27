@@ -12,16 +12,15 @@ if os.path.exists(archivo_excel):
     if not df_existente.empty and 'Fecha' in df_existente.columns:
         df_existente['Fecha'] = pd.to_datetime(df_existente['Fecha'], errors='coerce')
 else:
-    df_existente = pd.DataFrame(columns=["Fecha", "Gestor", "Patente", "Sitio", "Región", "Actividad"])
+    df_existente = pd.DataFrame(columns=["Fecha", "Gestor", "Patente", "Código Subtel", "Región", "Actividad"])
 
 st.image("logo.jpg", use_container_width=True)
 st.markdown("<h2 style='text-align: center;'>Registro uso camionetas - SAC</h2>", unsafe_allow_html=True)
 
 # Listas
 gestores = [
-    "Rodrigo Chávez", "Hernán Aguilera", "Juan Molina", "Francisco Barrios",
-    "Francisco Parra", "Rodrigo Araneda", "Marilin López", "Rodrigo Escandón",
-    "Felipe Camus", "Ignacio Basaure"
+    "Hernán Aguilera", "Rodrigo Aravena", "Ignacio Basaure", "Francisco Barrios", "Felipe Camus", "Rodrigo Chávez", "Rodrigo Escandón", "Juan Pablo Molina",
+    "Marilin López", "Francisco Parra"
 ]
 
 patentes = [
@@ -36,13 +35,17 @@ with st.form("registro_formulario"):
     fecha = st.date_input("Fecha del registro", value=date.today(), min_value=date(2025, 6, 1))
     gestor = st.selectbox("Gestor", gestores)
     patente = st.selectbox("Patente", patentes)
-    sitio = st.text_input("Sitio")
+    sitio = st.text_input("Código Subtel")
     region = st.number_input("Región (solo número)", min_value=1, step=1)
     actividad = st.text_area("Actividad realizada")
 
     enviar = st.form_submit_button("Enviar Registro")
 
     if enviar:
+    # Validación de campos vacíos
+    if not sitio.strip() or not actividad.strip():
+        st.error("❌ Todos los campos deben estar completos.")
+    else:
         if not df_existente.empty:
             existe = (
                 (df_existente['Fecha'].dt.date == fecha) &
@@ -59,14 +62,13 @@ with st.form("registro_formulario"):
                 "Fecha": [fecha],
                 "Gestor": [gestor],
                 "Patente": [patente],
-                "Sitio": [sitio],
+                "Código Subtel": [sitio],
                 "Región": [int(region)],
                 "Actividad": [actividad]
             })
             df_existente = pd.concat([df_existente, nuevo], ignore_index=True)
             df_existente.to_excel(archivo_excel, index=False)
             st.success("✅ Registro guardado correctamente.")
-
 # CONSULTAS
 st.markdown("---")
 st.markdown("#### 📊 Consulta o edita tus registros")
@@ -93,7 +95,7 @@ if not df_gestor.empty:
                     with st.form(f"form_edit_{idx}"):
                         nueva_fecha = st.date_input("Fecha", value=fila["Fecha"].date() if pd.notnull(fila["Fecha"]) else date.today(), min_value=date(2025, 6, 1), key=f"f_fecha_{idx}")
                         nueva_patente = st.selectbox("Patente", patentes, index=patentes.index(fila["Patente"]), key=f"f_patente_{idx}")
-                        nuevo_sitio = st.text_input("Sitio", value=fila["Sitio"], key=f"f_sitio_{idx}")
+                        nuevo_sitio = st.text_input("Código Subtel", value=fila["Código Subtel"], key=f"f_sitio_{idx}")
                         nueva_region = st.number_input("Región", min_value=1, step=1, value=int(fila["Región"]), key=f"f_region_{idx}")
                         nueva_actividad = st.text_area("Actividad", value=fila["Actividad"], key=f"f_actividad_{idx}")
                         guardar = st.form_submit_button("Guardar cambios")
@@ -101,7 +103,7 @@ if not df_gestor.empty:
                         if guardar:
                             df_existente.loc[idx, "Fecha"] = nueva_fecha
                             df_existente.loc[idx, "Patente"] = nueva_patente
-                            df_existente.loc[idx, "Sitio"] = nuevo_sitio
+                            df_existente.loc[idx, "Código Subtel"] = nuevo_sitio
                             df_existente.loc[idx, "Región"] = int(nueva_region)
                             df_existente.loc[idx, "Actividad"] = nueva_actividad
                             df_existente.to_excel(archivo_excel, index=False)
