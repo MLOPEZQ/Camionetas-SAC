@@ -31,7 +31,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.image("10 Años.jpg", use_container_width=True)
+st.image("10 Año.jpg", use_container_width=True)
 st.markdown("<h2 style='text-align: center;'>Registro uso camionetas - SAC</h2>", unsafe_allow_html=True)
 
 gestores = [
@@ -77,20 +77,24 @@ st.markdown("---")
 st.markdown("#### 📊 Consulta tus registros")
 
 gestor_consulta = st.selectbox("Selecciona tu nombre", gestores, key="gestor_consulta")
-df_gestor = df_existente[df_existente["Gestor"] == gestor_consulta].copy()
 
-if not df_gestor.empty:
-    st.success(f"Tienes {len(df_gestor)} registro(s).")
+if not df_existente.empty and "Gestor" in df_existente.columns:
+    df_gestor = df_existente[df_existente["Gestor"] == gestor_consulta].copy()
 
-    for idx, fila in df_gestor.iterrows():
-        fecha_str = fila["Fecha"].strftime("%Y-%m-%d") if pd.notnull(fila["Fecha"]) else "Sin fecha"
-        with st.expander(f"{fecha_str} | {fila['Patente']} | {fila['Código Subtel']}", expanded=False):
-            col1, col2 = st.columns(2)
-            with col1:
-                st.write(f"**Región:** {fila['Región']}")
-                st.write(f"**Actividad:** {fila['Actividad']}")
+    if not df_gestor.empty:
+        st.success(f"Tienes {len(df_gestor)} registro(s).")
+
+        for idx, fila in df_gestor.iterrows():
+            fecha_str = fila["Fecha"].strftime("%Y-%m-%d") if pd.notnull(fila["Fecha"]) else "Sin fecha"
+            with st.expander(f"{fecha_str} | {fila['Patente']} | {fila['Código Subtel']}", expanded=False):
+                col1, col2 = st.columns(2)
+                with col1:
+                    st.write(f"**Región:** {fila['Región']}")
+                    st.write(f"**Actividad:** {fila['Actividad']}")
+    else:
+        st.info("No hay registros para mostrar aún.")
 else:
-    st.info("No hay registros para mostrar aún.")
+    st.info("No hay registros disponibles para este gestor aún.")
 
 # DESCARGA
 st.markdown("---")
@@ -98,7 +102,7 @@ st.markdown("#### 🔒 Acceso Restringido")
 codigo = st.text_input("Ingresa el código para descargar consolidado", type="password")
 if codigo == "mlq2025":
     if not df_existente.empty:
-        excel = df_gestor.to_excel(index=False, engine="openpyxl")
+        excel = df_existente.to_excel(index=False, engine="openpyxl")
         st.download_button("📅 Descargar Excel consolidado", data=excel, file_name="uso_camionetas.xlsx")
 else:
     st.warning("⚠️ Ingresa el código para habilitar la descarga.")
