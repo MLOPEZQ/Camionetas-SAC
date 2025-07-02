@@ -6,14 +6,14 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import json
 
-# CONFIGURACIÓN GOOGLE SHEETS (usando Secret en Streamlit Cloud)
+# CONFIGURACIÓN GOOGLE SHEETS
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
 credenciales_dict = json.loads(st.secrets["GOOGLE_SHEETS_JSON"])
 creds = ServiceAccountCredentials.from_json_keyfile_dict(credenciales_dict, scope)
 client = gspread.authorize(creds)
 sheet = client.open("Uso_Camionetas").sheet1
 
-# LEER DATOS DE GOOGLE SHEETS
+#GOOGLE SHEETS
 data = sheet.get_all_records()
 df_existente = pd.DataFrame(data)
 
@@ -31,7 +31,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.image("logo.jpg", use_container_width=True)
+st.image("10 Años.jpg", use_container_width=True)
 st.markdown("<h2 style='text-align: center;'>Registro uso camionetas - SAC</h2>", unsafe_allow_html=True)
 
 gestores = [
