@@ -35,12 +35,12 @@ st.image("10 Años.jpg", use_container_width=True)
 st.markdown("<h2 style='text-align: center;'>Registro uso camionetas - SAC</h2>", unsafe_allow_html=True)
 
 gestores = [
-    "Hernán Aguilera", "Rodrigo Aravena", "Ignacio Basaure", "Francisco Barrios", "Felipe Camus", "Rodrigo Chávez", "Rodrigo Escandón", "Juan Pablo Molina",
+    "Hernán Aguilera", "Ignacio Basaure", "Francisco Barrios", "Felipe Camus", "Rodrigo Escandón", "Juan Pablo Molina",
     "Marilin López", "Francisco Parra"
 ]
 patentes = [
     "PBFW28", "PTFP12", "PTFP13", "PTFP21", "PTWB64",
-    "PTWB72", "RSVD89", "RVGV85", "RVGV87"
+    "RSVD89", "RVGV85", "RVGV87"
 ]
 
 # REGISTRO
