@@ -35,7 +35,7 @@ st.image("10 Años.jpg", use_container_width=True)
 st.markdown("<h2 style='text-align: center;'>Registro uso camionetas - SAC</h2>", unsafe_allow_html=True)
 
 gestores = [
-    "Hernán Aguilera", "Ignacio Basaure", "Francisco Barrios", "Felipe Camus", "Rodrigo Escandón", "Juan Pablo Molina",
+    "Hernán Aguilera", "Ignacio Basaure", "Francisco Barrios", "Felipe Camus", "Rodrigo Escandón", "Osvaldo Espinoza", "Juan Pablo Molina",
     "Marilin López", "Francisco Parra"
 ]
 patentes = [
