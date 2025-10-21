@@ -3,4 +3,4 @@ oauth2client
 openpyxl
 pandas
 Pillow
-streamlit
+streamlit==1.36.0
