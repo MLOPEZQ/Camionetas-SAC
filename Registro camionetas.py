@@ -30,8 +30,26 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+#####desde aqui
+from pathlib import Path
+import streamlit as st
+import os
 
-st.image("10-anos.jpg", use_container_width=True)
+ROOT = Path(__file__).parent
+candidatos = ["10-anos.jpg", "logo.jpg", "10 Años.jpg"]
+
+encontrada = None
+for n in candidatos:
+    p = ROOT / n
+    if p.exists():
+        encontrada = p
+        break
+
+if encontrada:
+    st.image(str(encontrada), use_container_width=True)
+else:
+    st.warning(f"No encontré ninguna imagen {candidatos} en {ROOT}. Archivos aquí: {os.listdir(ROOT)}")
+###hasta aqui
 st.markdown("<h2 style='text-align: center;'>Registro uso camionetas - SAC</h2>", unsafe_allow_html=True)
 
 gestores = [
