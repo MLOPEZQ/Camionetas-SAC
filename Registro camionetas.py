@@ -31,7 +31,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.image("10 Años.jpg", use_container_width=True)
+st.image("10-anos.jpg", use_container_width=True)
 st.markdown("<h2 style='text-align: center;'>Registro uso camionetas - SAC</h2>", unsafe_allow_html=True)
 
 gestores = [
