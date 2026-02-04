@@ -37,8 +37,8 @@ st.markdown(
 st.markdown("<h2 style='text-align: center;'>Registro uso camionetas - SAC</h2>", unsafe_allow_html=True)
 
 gestores = [
-    "Hernán Aguilera", "Ignacio Basaure", "Francisco Barrios", "Felipe Camus", "Rodrigo Escandón", "Osvaldo Espinoza", "Juan Pablo Molina",
-    "Marilin López", "Francisco Parra", "Roberto Severino", "Manuel Araus", "Christian Cifuentes", "Guillermo Angermeyer"
+    "Hernán Aguilera", "Ignacio Basaure", "Francisco Barrios", "Felipe Camus", "Rodrigo Escandón", "Juan Pablo Molina",
+    "Marilin López", "Francisco Parra", "Roberto Severino", "Manuel Araus", "Christian Cifuentes", "Germán Villegas", "Andrea Collao"
 ]
 patentes = [
     "PBFW28", "PTFP12", "PTFP13", "PTFP21", "PTWB64",
