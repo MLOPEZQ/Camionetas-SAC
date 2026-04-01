@@ -41,8 +41,8 @@ gestores = [
     "Marilin López", "Francisco Parra", "Roberto Severino", "Manuel Araus", "Christian Cifuentes", "Germán Villegas", "Andrea Collao"
 ]
 patentes = [
-    "PBFW28", "PTFP12", "PTFP13", "PTFP21", "PTWB64",
-    "RSVD89", "RVGV85", "RVGV87"
+    "VTTT79", "VTVC71", "VTVC81", "VTYX22", "VTYX37",
+    "VTYX44", "VTYX91"
 ]
 
 # REGISTRO
