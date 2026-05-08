@@ -42,7 +42,7 @@ gestores = [
 ]
 patentes = [
     "VTTT79", "VTVC71", "VTVC81", "VTYX22", "VTYX37",
-    "VTYX44", "VTYX91"
+    "VTYX44", "VTYX91", "VTYW80", "VTYX49"
 ]
 
 # REGISTRO
